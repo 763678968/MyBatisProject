@@ -5,6 +5,7 @@ public class Student {
     private String stuName;
     private int stuAge;
     private String graName;
+    private boolean stuSex;
 
     public Student() {
     }
@@ -14,6 +15,14 @@ public class Student {
         this.stuName = stuName;
         this.stuAge = stuAge;
         this.graName = graName;
+    }
+
+    public Student(int stuNo, String stuName, int stuAge, String graName, boolean stuSex) {
+        this.stuNo = stuNo;
+        this.stuName = stuName;
+        this.stuAge = stuAge;
+        this.graName = graName;
+        this.stuSex = stuSex;
     }
 
     public int getStuNo() {
@@ -48,8 +57,16 @@ public class Student {
         this.graName = graName;
     }
 
+    public boolean isStuSex() {
+        return stuSex;
+    }
+
+    public void setStuSex(boolean stuSex) {
+        this.stuSex = stuSex;
+    }
+
     @Override
     public String toString() {
-        return this.stuNo + "-" + this.stuName + "-" + this.stuAge + "-" + this.graName;
+        return this.stuNo + "-" + this.stuName + "-" + this.stuAge + "-" + this.graName + "-性别：" + this.stuSex;
     }
 }
