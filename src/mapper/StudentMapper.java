@@ -18,11 +18,15 @@ public interface StudentMapper {
     List<Student> queryAllStudents();
 
     // 增加
-    void addStudent(Student student);
+//    void addStudent(Student student);
+
+    void addStudentWithConverter(Student student);
 
     // 删除
     void deleteStudentByStuno(int stuno);
 
     // 修改
     void updateStudentByStuno(Student student);
+
+    Student queryStudentByStunoWithConverter(int stuno);
 }
