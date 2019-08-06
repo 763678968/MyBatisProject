@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!--namespace：该mapper.xml映射文件的唯一标识-->
-<mapper namespace="entity.studentMapper">
+<mapper namespace="mapper.studentMapper">
     <!-- 后续通过namespace.id -->
     <!-- parameterType：输入参数的类型 -->
     <!-- resultType：查询返回结果值的类型，返回类型 -->

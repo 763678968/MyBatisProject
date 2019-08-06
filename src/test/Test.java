@@ -1,5 +1,6 @@
-package entity;
+package test;
 
+import entity.Student;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -21,7 +22,7 @@ public class Test {
         // 可以通过build的第二参数指定数据库环境
         SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
         SqlSession session = sessionFactory.openSession();
-        String statement = "entity.studentMapper.queryStudentByStuno";
+        String statement = "mapper.studentMapper.queryStudentByStuno";
         Student student = session.selectOne(statement, 1);
         System.out.println(student);
         session.close();
@@ -37,7 +38,7 @@ public class Test {
         SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
         SqlSession session = sessionFactory.openSession();
 
-        String statement = "entity.studentMapper." + "queryAllStudents";
+        String statement = "mapper.studentMapper." + "queryAllStudents";
         List<Student> students = session.selectList(statement);
         System.out.println(students);
 
@@ -54,7 +55,7 @@ public class Test {
         SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
         SqlSession session = sessionFactory.openSession();
 
-        String statement = "entity.studentMapper." + "addStudent";
+        String statement = "mapper.studentMapper." + "addStudent";
         Student student = new Student(3, "ww", 25, "g1");
         int count = session.insert(statement, student); // statement：指定执行的SQL   student：SQL中需要的参数(? ? ?)
         session.commit(); // 提交事务
@@ -73,7 +74,7 @@ public class Test {
         SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
         SqlSession session = sessionFactory.openSession();
 
-        String statement = "entity.studentMapper." + "deleteStudentByStuno";
+        String statement = "mapper.studentMapper." + "deleteStudentByStuno";
         int count = session.delete(statement, 3); // statement：指定执行的SQL   student：SQL中需要的参数(? ? ?)
         session.commit(); // 提交事务
 
@@ -91,7 +92,7 @@ public class Test {
         SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
         SqlSession session = sessionFactory.openSession();
 
-        String statement = "entity.studentMapper." + "updateStudentByStuno";
+        String statement = "mapper.studentMapper." + "updateStudentByStuno";
         // 修改的参数
         Student student = new Student();
         // 修改哪个人，where stuno = 2
@@ -109,10 +110,11 @@ public class Test {
     }
 
     public static void main(String[] args) throws IOException {
-        queryAllStudents();
+        queryStudentByStuno();
+//        queryAllStudents();
 //        addStudent();
 //        deleteStudentByStuno();
-        updateStudentByStuno();
-        queryAllStudents();
+//        updateStudentByStuno();
+//        queryAllStudents();
     }
 }

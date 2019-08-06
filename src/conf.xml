@@ -55,6 +55,6 @@
     </environments>
     <mappers>
         <!-- 加载映射文件 -->
-        <mapper resource="entity/studentMapper.xml"/>
+        <mapper resource="mapper/studentMapper.xml"/>
     </mappers>
 </configuration>
