@@ -3,29 +3,55 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!--namespace：该mapper.xml映射文件的唯一标识-->
-<mapper namespace="mapper.studentMapper">
+<!--&lt;!&ndash;namespace：该mapper.xml映射文件的唯一标识&ndash;&gt;-->
+<!--<mapper namespace="mapper.studentMapper">-->
+<!--    &lt;!&ndash; 后续通过namespace.id &ndash;&gt;-->
+<!--    &lt;!&ndash; parameterType：输入参数的类型 &ndash;&gt;-->
+<!--    &lt;!&ndash; resultType：查询返回结果值的类型，返回类型 &ndash;&gt;-->
+<!--    <select id="queryStudentByStuno" resultType="student" parameterType="int">-->
+<!--        select * from student where stuno = #{stuno}-->
+<!--    </select>-->
+
+<!--    <insert id="addStudent" parameterType="student">-->
+<!--        insert into student(stuno, stuname, stuage, graname)  values(#{stuNo}, #{stuName},#{stuAge},#{graName})-->
+<!--    </insert>-->
+
+<!--    <update id="updateStudentByStuno" parameterType="student">-->
+<!--        update student set stuname = #{stuName}, stuage = #{stuAge}, graname = #{graName} where stuno = #{stuNo}-->
+<!--    </update>-->
+
+<!--    <delete id="deleteStudentByStuno" parameterType="int">-->
+<!--        delete from student where stuno = #{stuno}-->
+<!--    </delete>-->
+
+<!--    <select id="queryAllStudents" resultType="student">-->
+<!--        select * from student-->
+<!--    </select>-->
+<!--</mapper>-->
+
+
+<!-- 操作MyBatis的接口 -->
+<mapper namespace="mapper.StudentMapper">
     <!-- 后续通过namespace.id -->
     <!-- parameterType：输入参数的类型 -->
     <!-- resultType：查询返回结果值的类型，返回类型 -->
-    <select id="queryStudentByStuno" resultType="entity.Student" parameterType="int">
-        select * from student where stuno = #{stuno}
-    </select>
+    <select id="queryStudentByStuno" resultType="student" parameterType="int">
+            select * from student where stuno = #{stuno}
+        </select>
 
-    <insert id="addStudent" parameterType="entity.Student">
-        insert into student(stuno, stuname, stuage, graname)  values(#{stuNo}, #{stuName},#{stuAge},#{graName})
-    </insert>
+    <insert id="addStudent" parameterType="student">
+            insert into student(stuno, stuname, stuage, graname)  values(#{stuNo}, #{stuName},#{stuAge},#{graName})
+        </insert>
 
-    <update id="updateStudentByStuno" parameterType="entity.Student">
-        update student set stuname = #{stuName}, stuage = #{stuAge}, graname = #{graName} where stuno = #{stuNo}
-    </update>
+    <update id="updateStudentByStuno" parameterType="student">
+            update student set stuname = #{stuName}, stuage = #{stuAge}, graname = #{graName} where stuno = #{stuNo}
+        </update>
 
     <delete id="deleteStudentByStuno" parameterType="int">
-        delete from student where stuno = #{stuno}
-    </delete>
+            delete from student where stuno = #{stuno}
+        </delete>
 
-    <select id="queryAllStudents" resultType="entity.Student">
-        select * from student
-    </select>
-
+    <select id="queryAllStudents" resultType="student">
+            select * from student
+        </select>
 </mapper>

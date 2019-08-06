@@ -1,6 +1,7 @@
 package test;
 
 import entity.Student;
+import mapper.StudentMapper;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -22,8 +23,10 @@ public class Test {
         // 可以通过build的第二参数指定数据库环境
         SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
         SqlSession session = sessionFactory.openSession();
-        String statement = "mapper.studentMapper.queryStudentByStuno";
-        Student student = session.selectOne(statement, 1);
+
+        StudentMapper studentMapper = session.getMapper(StudentMapper.class);
+        Student student = studentMapper.queryStudentByStuno(1); // 接口中的方法 -> SQL语句
+
         System.out.println(student);
         session.close();
     }
@@ -38,10 +41,12 @@ public class Test {
         SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
         SqlSession session = sessionFactory.openSession();
 
-        String statement = "mapper.studentMapper." + "queryAllStudents";
-        List<Student> students = session.selectList(statement);
-        System.out.println(students);
+//        String statement = "mapper.studentMapper." + "queryAllStudents";
+//        List<Student> students = session.selectList(statement);
+        StudentMapper studentMapper = session.getMapper(StudentMapper.class);
+        List<Student> students = studentMapper.queryAllStudents();
 
+        System.out.println(students);
         session.close();
     }
 
@@ -55,12 +60,16 @@ public class Test {
         SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
         SqlSession session = sessionFactory.openSession();
 
-        String statement = "mapper.studentMapper." + "addStudent";
-        Student student = new Student(3, "ww", 25, "g1");
-        int count = session.insert(statement, student); // statement：指定执行的SQL   student：SQL中需要的参数(? ? ?)
+//        String statement = "mapper.studentMapper." + "addStudent";
+        Student student = new Student(13, "ww3", 23, "s3");
+
+//        int count = session.insert(statement, student); // statement：指定执行的SQL   student：SQL中需要的参数(? ? ?)
+        StudentMapper studentMapper = session.getMapper(StudentMapper.class);
+        studentMapper.addStudent(student);
+
         session.commit(); // 提交事务
 
-        System.out.println("增加" + count + "个学生");
+        System.out.println("增加成功");
         session.close();
     }
 
@@ -74,11 +83,14 @@ public class Test {
         SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
         SqlSession session = sessionFactory.openSession();
 
-        String statement = "mapper.studentMapper." + "deleteStudentByStuno";
-        int count = session.delete(statement, 3); // statement：指定执行的SQL   student：SQL中需要的参数(? ? ?)
+//        String statement = "mapper.studentMapper." + "deleteStudentByStuno";
+//        int count = session.delete(statement, 3); // statement：指定执行的SQL   student：SQL中需要的参数(? ? ?)
+
+        StudentMapper studentMapper = session.getMapper(StudentMapper.class);
+        studentMapper.deleteStudentByStuno(13);
         session.commit(); // 提交事务
 
-        System.out.println("删除" + count + "个学生");
+        System.out.println("删除成功");
         session.close();
     }
 
@@ -92,20 +104,22 @@ public class Test {
         SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
         SqlSession session = sessionFactory.openSession();
 
-        String statement = "mapper.studentMapper." + "updateStudentByStuno";
+//        String statement = "mapper.studentMapper." + "updateStudentByStuno";
         // 修改的参数
         Student student = new Student();
         // 修改哪个人，where stuno = 2
         student.setStuNo(2);
         // 修改成什么样子？
-        student.setStuName("lxs");
-        student.setStuAge(44);
-        student.setGraName("s2");
-        int count = session.update(statement, student);
+        student.setStuName("ls");
+        student.setStuAge(24);
+        student.setGraName("g1");
+//        int count = session.update(statement, student);
+        StudentMapper studentMapper = session.getMapper(StudentMapper.class);
+        studentMapper.updateStudentByStuno(student);
 
         session.commit(); // 提交事务
 
-        System.out.println("修改" + count + "个学生");
+        System.out.println("修改成功");
         session.close();
     }
 
