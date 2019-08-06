@@ -18,6 +18,10 @@
         <package name="entity"/>
     </typeAliases>
 
+    <typeHandlers>
+        <typeHandler handler="converter.BooleanAndIntConverter" javaType="Boolean" jdbcType="INTEGER"/>
+    </typeHandlers>
+
     <!-- 通过environments的default值和environment的id来指定MyBatis运行时的数据库环境 -->
     <environments default="development">
         <!-- 开发环境（自己的计算机） -->
