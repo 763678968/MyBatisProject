@@ -31,6 +31,24 @@ public class Test {
         session.close();
     }
 
+    // 查询单个学生（使用了转换器）
+    public static void queryStudentByStunoWithConverter() throws IOException {
+        // Connection - SqlSession操作MyBatis
+        // conf.xml -> reader
+        Reader reader = Resources.getResourceAsReader("conf.xml");
+        // reader -> SqlSession
+
+        // 可以通过build的第二参数指定数据库环境
+        SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
+        SqlSession session = sessionFactory.openSession();
+
+        StudentMapper studentMapper = session.getMapper(StudentMapper.class);
+        Student student = studentMapper.queryStudentByStunoWithConverter(1); // 接口中的方法 -> SQL语句
+
+        System.out.println(student);
+        session.close();
+    }
+
     // 查询全部学生
     public static void queryAllStudents() throws IOException {
         // Connection - SqlSession操作MyBatis
@@ -50,8 +68,8 @@ public class Test {
         session.close();
     }
 
-    // 增加学生
-    public static void addStudent() throws IOException {
+    // 增加学生（带转换器）
+    public static void addStudentWithConverter() throws IOException {
         // Connection - SqlSession操作MyBatis
         // conf.xml -> reader
         Reader reader = Resources.getResourceAsReader("conf.xml");
@@ -61,11 +79,12 @@ public class Test {
         SqlSession session = sessionFactory.openSession();
 
 //        String statement = "mapper.studentMapper." + "addStudent";
-        Student student = new Student(13, "ww3", 23, "s3");
+        Student student = new Student(53, "ww53", 23, "s3");
+        student.setStuSex(true); // 1
 
 //        int count = session.insert(statement, student); // statement：指定执行的SQL   student：SQL中需要的参数(? ? ?)
         StudentMapper studentMapper = session.getMapper(StudentMapper.class);
-        studentMapper.addStudent(student);
+        studentMapper.addStudentWithConverter(student);
 
         session.commit(); // 提交事务
 
@@ -125,8 +144,10 @@ public class Test {
 
     public static void main(String[] args) throws IOException {
         queryStudentByStuno();
+//        queryStudentByStunoWithConverter();
 //        queryAllStudents();
 //        addStudent();
+//        addStudentWithConverter();
 //        deleteStudentByStuno();
 //        updateStudentByStuno();
 //        queryAllStudents();
