@@ -1,6 +1,7 @@
 package test;
 
 import entity.Address;
+import entity.Grade;
 import entity.Student;
 import mapper.StudentMapper;
 import org.apache.ibatis.io.Resources;
@@ -10,6 +11,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +36,31 @@ public class Test {
         session.close();
     }
 
-    // 查询单个学生
+    // 查询单个学生 Grade
+    public static void queryStudentsWithNosInGrade() throws IOException {
+        // Connection - SqlSession操作MyBatis
+        // conf.xml -> reader
+        Reader reader = Resources.getResourceAsReader("conf.xml");
+        // reader -> SqlSession
+
+        // 可以通过build的第二参数指定数据库环境
+        SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
+        SqlSession session = sessionFactory.openSession();
+
+        StudentMapper studentMapper = session.getMapper(StudentMapper.class);
+        Grade grade = new Grade();
+        List<Integer> stuNos = new ArrayList<>();
+        stuNos.add(1);
+        stuNos.add(2);
+//        stuNos.add(53);
+        grade.setStuNos(stuNos);
+        List<Student> students = studentMapper.queryStudentsWithNosInGrade(grade); // 接口中的方法 -> SQL语句
+
+        System.out.println(students);
+        session.close();
+    }
+
+    // 查询单个学生 HashMap
     public static void queryStudentByIdWithHashMap() throws IOException {
         // Connection - SqlSession操作MyBatis
         // conf.xml -> reader
@@ -52,7 +78,30 @@ public class Test {
         session.close();
     }
 
-    // 查询单个学生
+    // 查询单个学生，使用SQL标签
+    public static void queryStuByNOrAWithSQLTag() throws IOException {
+        // Connection - SqlSession操作MyBatis
+        // conf.xml -> reader
+        Reader reader = Resources.getResourceAsReader("conf.xml");
+        // reader -> SqlSession
+
+        // 可以通过build的第二参数指定数据库环境
+        SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
+        SqlSession session = sessionFactory.openSession();
+
+        StudentMapper studentMapper = session.getMapper(StudentMapper.class);
+
+        Student stu = new Student();
+        stu.setStuAge(24);
+        stu.setStuName("ls");
+
+        Student student = studentMapper.queryStuByNOrAWithSQLTag(stu); // 接口中的方法 -> SQL语句
+
+        System.out.println(student);
+        session.close();
+    }
+
+    // 查询单个学生 ID
     public static void queryStudentById() throws IOException {
         // Connection - SqlSession操作MyBatis
         // conf.xml -> reader
@@ -70,7 +119,7 @@ public class Test {
         session.close();
     }
 
-    // 查询单个学生
+    // 查询单个学生 学号
     public static void queryStuByStuno() throws IOException {
         // Connection - SqlSession操作MyBatis
         // conf.xml -> reader
@@ -106,7 +155,7 @@ public class Test {
         session.close();
     }
 
-    // 查询学生，结果为Map类型
+    // 查询所有学生，结果为Map类型
     public static void queryAllStudentsOutByHashMap() throws IOException {
         // Connection - SqlSession操作MyBatis
         // conf.xml -> reader
@@ -192,6 +241,52 @@ public class Test {
 //        List<Student> students = session.selectList(statement);
         StudentMapper studentMapper = session.getMapper(StudentMapper.class);
         List<Student> students = studentMapper.queryAllStudents();
+
+        System.out.println(students);
+        session.close();
+    }
+
+    // 查询全部学生 WithArray
+    public static void queryStudentsWithArray() throws IOException {
+        // Connection - SqlSession操作MyBatis
+        // conf.xml -> reader
+        Reader reader = Resources.getResourceAsReader("conf.xml");
+        // reader -> SqlSession
+        // 可以通过build的第二参数指定数据库环境
+        SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
+        SqlSession session = sessionFactory.openSession();
+
+//        String statement = "mapper.studentMapper." + "queryAllStudents";
+//        List<Student> students = session.selectList(statement);
+        StudentMapper studentMapper = session.getMapper(StudentMapper.class);
+
+        int[] stuNos = {1, 2, 53};
+        List<Student> students = studentMapper.queryStudentsWithArray(stuNos);
+
+        System.out.println(students);
+        session.close();
+    }
+
+    // 查询全部学生 WithList
+    public static void queryStudentsWithList() throws IOException {
+        // Connection - SqlSession操作MyBatis
+        // conf.xml -> reader
+        Reader reader = Resources.getResourceAsReader("conf.xml");
+        // reader -> SqlSession
+        // 可以通过build的第二参数指定数据库环境
+        SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
+        SqlSession session = sessionFactory.openSession();
+
+//        String statement = "mapper.studentMapper." + "queryAllStudents";
+//        List<Student> students = session.selectList(statement);
+        StudentMapper studentMapper = session.getMapper(StudentMapper.class);
+
+        List<Integer> stuNos = new ArrayList<>();
+        stuNos.add(1);
+        stuNos.add(2);
+        stuNos.add(53);
+
+        List<Student> students = studentMapper.queryStudentsWithList(stuNos);
 
         System.out.println(students);
         session.close();
@@ -423,7 +518,11 @@ public class Test {
 //        queryStudentOutByHashMap();
 //        queryAllStudentsOutByHashMap();
 //        queryStudentById();
-        queryStudentByIdWithHashMap();
+//        queryStudentByIdWithHashMap();
+//        queryStuByNOrAWithSQLTag();
+//        queryStudentsWithNosInGrade();
+//        queryStudentsWithArray();
+        queryStudentsWithList();
 //        queryStudentByStunoWithConverter();
 //        queryAllStudents();
 //        addStudent();
