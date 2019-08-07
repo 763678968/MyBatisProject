@@ -36,6 +36,17 @@
     <!-- parameterType：输入参数的类型 -->
     <!-- resultType：查询返回结果值的类型，返回类型 -->
 
+    <sql id="ObjectArrayStunos">
+        <where>
+            <if test="array != null and array.length">
+                <foreach collection="array" open=" and stuno in (" close=")"
+                         item="student" separator=",">
+                    #{student.stuNo}
+                </foreach>
+            </if>
+        </where>
+    </sql>
+
 <!--    <select id="queryStudentCount" resultType="int">-->
 <!--            select count(*) from student-->
 <!--    </select>-->
@@ -116,6 +127,13 @@
                 </foreach>
             </if>
         </where>
+    </select>
+
+    <!--    将多个元素值放入对象数组中Student[] students = {student0, student1, student2}; -->
+    <select id="queryStudentsWithObjectArray" parameterType="Object[]" resultType="student">
+        select * from student
+        <!-- 如果SQL片段和引用处不在同一个文件中，则需要在refid引用时，加上namespace: namespace.id -->
+        <include refid="ObjectArrayStunos"></include>
     </select>
 
     <select id="queryStuByStuno" parameterType="int" resultType="student">
