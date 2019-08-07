@@ -1,6 +1,7 @@
 package mapper;
 
 import entity.Address;
+import entity.Grade;
 import entity.Student;
 
 import java.util.HashMap;
@@ -20,6 +21,12 @@ public interface StudentMapper {
     Student queryStudentById(int stuno);
     Student queryStudentByIdWithHashMap(int stuno);
 
+    List<Student> queryStudentsWithNosInGrade(Grade grade);
+
+    List<Student> queryStudentsWithArray(int[] stuNos);
+    List<Student> queryStudentsWithList(List<Integer> stuNos);
+
+    Student queryStuByNOrAWithSQLTag(Student student);
     int queryStudentCount();
 
     Student queryStuByStuno(int stuno);
