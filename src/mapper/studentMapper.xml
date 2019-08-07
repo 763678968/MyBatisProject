@@ -35,13 +35,62 @@
     <!-- 后续通过namespace.id -->
     <!-- parameterType：输入参数的类型 -->
     <!-- resultType：查询返回结果值的类型，返回类型 -->
-    <select id="queryStudentByStuno" resultType="student" parameterType="int" resultMap="studentMapping">
-            select * from student where stuno = #{stuno}
-        </select>
+
+    <select id="queryStudentCount" resultType="int">
+            select count(*) from student
+    </select>
+
+    <select id="queryStudentById" parameterType="int" resultMap="queryStudentById">
+            select id, name from student where id = #{id}
+    </select>
+    <resultMap id="queryStudentById" type="student">
+<!--        指定类中的属性和表中的字段对应关系-->
+        <id property="stuNo" column="id"/>
+        <result property="stuName" column="name"/>
+    </resultMap>
+
+    <select id="queryStudentByIdWithHashMap" parameterType="int" resultType="student">
+            select id "stuNo", name "stuName" from student where id = #{id}
+    </select>
+
+    <select id="queryStuByStuno" parameterType="int" resultType="student">
+            select * from student where stuno = ${value}
+    </select>
+
+    <select id="queryStudentByStuno" parameterType="int" resultMap="studentMapping">
+            select * from student where stuno = ${value}
+    </select>
+
+    <select id="queryStudentByStuname" resultType="student" parameterType="string">
+            select stuno, stuname, stuage from student where stuname = '${value}'
+    </select>
+
+    <select id="queryStudentOrderByColumn" parameterType="string" resultType="student">
+            select stuno, stuname, stuage from student order by ${value} asc
+    </select>
+
+    <select id="queryStudentByStuageOrStuname" parameterType="student" resultType="student">
+    <!-- select stuno, stuname, stuage from student where stuage = #{stuAge} or stuname like #{stuName} -->
+    select stuno, stuname, stuage from student where stuage = #{stuAge} or stuname like '%${stuName}%'
+    </select>
+
+    <select id="queryStudentByStuageOrStunameWithHashMap" parameterType="HashMap" resultType="student">
+        select stuno, stuname, stuage from student
+        where stuage = #{stuAge} or stuname like '%${stuName}%'
+    </select>
+
+<!--    <select id="queryStudentByAddress" parameterType="address" resultType="student">-->
+<!--        select stuno, stuname, stuage from student where homeaddress = #{homeAddress} or schooladdress = '${schoolAddress}'-->
+<!--    </select>-->
+
+<!--    输入参数为级联属性-->
+    <select id="queryStudentByAddress" parameterType="student" resultType="student">
+        select stuno, stuname, stuage from student where homeaddress = #{address.homeAddress} or schooladdress = '${address.schoolAddress}'
+    </select>
 
     <resultMap type="student" id="studentMapping">
         <!--        分为主键id和非主键result-->
-        <id property="stuno" column="stuno"/>
+        <id property="stuNo" column="stuno"/>
         <result property="stuName" column="stuname"/>
         <result property="stuAge" column="stuage"/>
         <result property="graName" column="graname"/>
@@ -66,22 +115,52 @@
 
     <insert id="addStudent" parameterType="student">
             insert into student(stuno, stuname, stuage, graname)  values(#{stuNo}, #{stuName},#{stuAge},#{graName})
-        </insert>
+    </insert>
 
 <!--    带转换器的增加-->
     <insert id="addStudentWithConverter" parameterType="student">
             insert into student(stuno, stuname, stuage, graname, stusex)  values(#{stuNo}, #{stuName}, #{stuAge}, #{graName}, #{stuSex, javaType=boolean, jdbcType=INTEGER})
-        </insert>
+    </insert>
 
     <update id="updateStudentByStuno" parameterType="student">
             update student set stuname = #{stuName}, stuage = #{stuAge}, graname = #{graName} where stuno = #{stuNo}
-        </update>
+    </update>
 
     <delete id="deleteStudentByStuno" parameterType="int">
             delete from student where stuno = #{stuno}
-        </delete>
+    </delete>
 
     <select id="queryAllStudents" resultType="student">
             select * from student
-        </select>
+    </select>
+
+<!--    通过别名作为Map的key-->
+    <select id="queryStudentOutByHashMap" resultType="HashMap">
+            select stuno "no", stuname "name" from student where stuno = 1
+    </select>
+
+    <select id="queryAllStudentsOutByHashMap" resultType="HashMap">
+            select stuno "no", stuname "name" from student
+    </select>
+
+<!--    通过调用[存储过程]实现查询，statementType="CALLABLE"
+        存储过程的输入参数，在MyBatis中用Map来传递(HashMap)
+-->
+    <select id="queryCountByGradeWithProcedure" statementType="CALLABLE" parameterType="HashMap">
+        {
+            CALL queryCountByGradeWithProcedure(
+                #{gName, jdbcType=VARCHAR, mode=IN},
+                #{sCount, jdbcType=INTEGER, mode=OUT}
+            )
+        }
+    </select>
+
+    <!-- 通过存储过程实现删除 -->
+    <delete id="deleteStuBynoWithProcedure" statementType="CALLABLE" parameterType="HashMap">
+        {
+            CALL deleteStuBynoWithProcedure(
+                #{sno, jdbcType=INTEGER, mode=IN}
+            )
+        }
+    </delete>
 </mapper>

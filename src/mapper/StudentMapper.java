@@ -1,8 +1,11 @@
 package mapper;
 
+import entity.Address;
 import entity.Student;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 // 操作MyBatis的接口
 public interface StudentMapper {
@@ -14,11 +17,32 @@ public interface StudentMapper {
 //    public abstract Student queryStudentByStuno(int stuno);
     Student queryStudentByStuno(int stuno);
 
+    Student queryStudentById(int stuno);
+    Student queryStudentByIdWithHashMap(int stuno);
+
+    int queryStudentCount();
+
+    Student queryStuByStuno(int stuno);
+
     // 查询全部
     List<Student> queryAllStudents();
+    HashMap<String, Object> queryStudentOutByHashMap();
+
+    List<HashMap<String, Object>> queryAllStudentsOutByHashMap();
 
     // 增加
 //    void addStudent(Student student);
+
+    Student queryStudentByStuname(String stuName);
+
+    List<Student> queryStudentOrderByColumn(String column);
+
+    List<Student> queryStudentByStuageOrStuname(Student student);
+
+    List<Student> queryStudentByStuageOrStunameWithHashMap(Map<String, Object> map);
+
+//    List<Student> queryStudentByAddress(Address address);
+    List<Student> queryStudentByAddress(Student student);
 
     void addStudentWithConverter(Student student);
 
@@ -29,4 +53,10 @@ public interface StudentMapper {
     void updateStudentByStuno(Student student);
 
     Student queryStudentByStunoWithConverter(int stuno);
+
+    // 根据存储过程查询某个年级的学生总数
+    void queryCountByGradeWithProcedure(Map<String, Object> params);
+
+    void deleteStuBynoWithProcedure(Map<String, Object> params);
+
 }
