@@ -36,21 +36,86 @@
     <!-- parameterType：输入参数的类型 -->
     <!-- resultType：查询返回结果值的类型，返回类型 -->
 
-    <select id="queryStudentCount" resultType="int">
-            select count(*) from student
+<!--    <select id="queryStudentCount" resultType="int">-->
+<!--            select count(*) from student-->
+<!--    </select>-->
+
+<!--    <select id="queryStudentById" parameterType="int" resultMap="queryStudentById">-->
+<!--            select id, name from student where id = #{id}-->
+<!--    </select>-->
+<!--    <resultMap id="queryStudentById" type="student">-->
+<!--&lt;!&ndash;        指定类中的属性和表中的字段对应关系&ndash;&gt;-->
+<!--        <id property="stuNo" column="id"/>-->
+<!--        <result property="stuName" column="name"/>-->
+<!--    </resultMap>-->
+
+<!--    <select id="queryStudentByIdWithHashMap" parameterType="int" resultType="student">-->
+<!--            select id "stuNo", name "stuName" from student where id = #{id}-->
+<!--    </select>-->
+
+<!--    <select id="queryStuByNOrAWithSQLTag" parameterType="student" resultType="student">-->
+<!--            select stuno, stuname, stuage from student where 1 = 1-->
+<!--            &lt;!&ndash; if test="student有stuname属性，且不为null" &ndash;&gt;-->
+<!--            <if test="stuName != null and stuName != '' ">-->
+<!--                and stuname = #{stuName}-->
+<!--            </if>-->
+
+<!--            <if test="stuAge != null and stuAge != 0 ">-->
+<!--                and stuage = #{stuAge}-->
+<!--            </if>-->
+<!--    </select>-->
+
+    <select id="queryStuByNOrAWithSQLTag" parameterType="student" resultType="student">
+        select stuno, stuname, stuage from student
+        <where>
+            <!-- if test="student有stuname属性，且不为null" -->
+            <if test="stuName != null and stuName != '' ">
+                and stuname = #{stuName}
+            </if>
+
+            <if test="stuAge != null and stuAge != 0 ">
+                and stuage = #{stuAge}
+            </if>
+        </where>
     </select>
 
-    <select id="queryStudentById" parameterType="int" resultMap="queryStudentById">
-            select id, name from student where id = #{id}
+<!--    将多个元素值放入对象的属性中-->
+    <select id="queryStudentsWithNosInGrade" parameterType="grade" resultType="student">
+            select * from student
+            <where>
+                <if test="stuNos != null and stuNos.size > 0">
+                    <foreach collection="stuNos" open=" and stuno in (" close=")"
+                             item="stuNo" separator=",">
+                        #{stuNo}
+                    </foreach>
+                </if>
+            </where>
     </select>
-    <resultMap id="queryStudentById" type="student">
-<!--        指定类中的属性和表中的字段对应关系-->
-        <id property="stuNo" column="id"/>
-        <result property="stuName" column="name"/>
-    </resultMap>
 
-    <select id="queryStudentByIdWithHashMap" parameterType="int" resultType="student">
-            select id "stuNo", name "stuName" from student where id = #{id}
+    <!--    将多个元素值放入数组中int[] stuNos = {1, 2, 53} -->
+    <select id="queryStudentsWithArray" parameterType="int[]" resultType="student">
+        select * from student
+        <where>
+            <if test="array != null and array.length">
+                <foreach collection="array" open=" and stuno in (" close=")"
+                         item="stuNo" separator=",">
+                    #{stuNo}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <!--    将多个元素值放入集合中List<Integer> stuNos 值 {1, 2, 53} -->
+    <select id="queryStudentsWithList" parameterType="list" resultType="student">
+        select * from student
+        <where>
+            <if test="list != null and list.size">
+                <foreach collection="list" open=" and stuno in (" close=")"
+                         item="stuNo" separator=",">
+                    #{stuNo}
+                </foreach>
+            </if>
+        </where>
     </select>
 
     <select id="queryStuByStuno" parameterType="int" resultType="student">
