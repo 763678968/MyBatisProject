@@ -7,6 +7,8 @@ public class Student {
     private String graName;
     private boolean stuSex;
 
+    private Address address;    // 家庭、学校
+
     public Student() {
     }
 
@@ -63,6 +65,14 @@ public class Student {
 
     public void setStuSex(boolean stuSex) {
         this.stuSex = stuSex;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     @Override
