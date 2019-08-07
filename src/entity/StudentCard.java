@@ -1,5 +1,6 @@
 package entity;
 
+// 学生证
 public class StudentCard {
     private int cardId;
     private String cardInfo;

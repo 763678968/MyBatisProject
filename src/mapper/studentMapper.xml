@@ -136,11 +136,30 @@
         <include refid="ObjectArrayStunos"></include>
     </select>
 
-    <select id="queryStudentByNoWithOO" parameterType="int" resultType="StudentBusiness">
+<!--&lt;!&ndash;    利用业务扩展类实现一对一&ndash;&gt;-->
+<!--    <select id="queryStudentByNoWithOO" parameterType="int" resultType="StudentBusiness">-->
+<!--        select s.*, c.* from student s inner join studentcard c-->
+<!--        on s.cardid = c.cardid-->
+<!--        where s.stuno = #{stuNo}-->
+<!--    </select>-->
+
+    <!--    利用resultMap实现一对一-->
+    <select id="queryStudentByNoWithOO2" parameterType="int" resultMap="student_card_map">
         select s.*, c.* from student s inner join studentcard c
-        on s.cardid = c.cardid
+                                                  on s.cardid = c.cardid
         where s.stuno = #{stuNo}
     </select>
+    <resultMap id="student_card_map" type="student">
+        <!-- 学生的信息 -->
+        <id property="stuNo" column="stuNo"/>
+        <result property="stuName" column="stuName"/>
+        <result property="stuAge" column="stuAge"/>
+        <!-- 一对一时，对象成员使用association映射，javaType指定该属性的类型 -->
+        <association property="card" javaType="StudentCard">
+            <id property="cardId" column="cardId"/>
+            <result property="cardInfo" column="cardInfo"/>
+        </association>
+    </resultMap>
 
     <select id="queryStuByStuno" parameterType="int" resultType="student">
             select * from student where stuno = ${value}

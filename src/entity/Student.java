@@ -1,11 +1,15 @@
 package entity;
 
+// 学生类包含：1.学生信息；2：学生证信息
 public class Student {
+    // 1.学生信息
     private int stuNo;
     private String stuName;
     private int stuAge;
     private String graName;
     private boolean stuSex;
+    // 2.学生证信息
+    private StudentCard card;
 
     private Address address;    // 家庭、学校
 
@@ -75,8 +79,18 @@ public class Student {
         this.address = address;
     }
 
+    public StudentCard getCard() {
+        return card;
+    }
+
+    public void setCard(StudentCard card) {
+        this.card = card;
+    }
+
     @Override
     public String toString() {
-        return this.stuNo + "-" + this.stuName + "-" + this.stuAge + "-" + this.graName + "-性别：" + this.stuSex;
+//        return this.stuNo + "-" + this.stuName + "-" + this.stuAge + "-" + this.graName + "-性别：" + this.stuSex;
+        return this.stuNo + "-" + this.stuName + "-" + this.stuAge + "-" + this.card.getCardId() + "-" + this.card.getCardInfo();
+
     }
 }

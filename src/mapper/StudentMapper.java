@@ -30,6 +30,8 @@ public interface StudentMapper {
     StudentBusiness queryStudentByNoWithOO(int stuno);
     List<Student> queryStudentsWithObjectArray(Student[] students);
 
+    Student queryStudentByNoWithOO2(int stuNo);
+
     Student queryStuByNOrAWithSQLTag(Student student);
     int queryStudentCount();
 

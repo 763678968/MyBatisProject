@@ -138,7 +138,7 @@ public class Test {
         session.close();
     }
 
-    // 查询单个学生
+    // 一对一关联查询 业务扩展类
     public static void queryStudentByNoWithOO() throws IOException {
         // Connection - SqlSession操作MyBatis
         // conf.xml -> reader
@@ -153,6 +153,24 @@ public class Test {
         StudentBusiness studentBusiness = studentMapper.queryStudentByNoWithOO(2); // 接口中的方法 -> SQL语句
 
         System.out.println(studentBusiness);
+        session.close();
+    }
+
+    // 一对一关联查询 resultMap
+    public static void queryStudentByNoWithOO2() throws IOException {
+        // Connection - SqlSession操作MyBatis
+        // conf.xml -> reader
+        Reader reader = Resources.getResourceAsReader("conf.xml");
+        // reader -> SqlSession
+
+        // 可以通过build的第二参数指定数据库环境
+        SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
+        SqlSession session = sessionFactory.openSession();
+
+        StudentMapper studentMapper = session.getMapper(StudentMapper.class);
+        Student student = studentMapper.queryStudentByNoWithOO2(2); // 接口中的方法 -> SQL语句
+
+        System.out.println(student);
         session.close();
     }
 
@@ -568,7 +586,8 @@ public class Test {
 //        queryStudentsWithArray();
 //        queryStudentsWithList();
 //        queryStudentsWithObjectArray();
-        queryStudentByNoWithOO();
+//        queryStudentByNoWithOO();
+        queryStudentByNoWithOO2();
 //        queryStudentByStunoWithConverter();
 //        queryAllStudents();
 //        addStudent();
