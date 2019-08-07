@@ -292,6 +292,31 @@ public class Test {
         session.close();
     }
 
+    // 查询全部学生
+    public static void queryStudentsWithObjectArray() throws IOException {
+        // Connection - SqlSession操作MyBatis
+        // conf.xml -> reader
+        Reader reader = Resources.getResourceAsReader("conf.xml");
+        // reader -> SqlSession
+        // 可以通过build的第二参数指定数据库环境
+        SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
+        SqlSession session = sessionFactory.openSession();
+
+        StudentMapper studentMapper = session.getMapper(StudentMapper.class);
+
+        Student stu1 = new Student();
+        stu1.setStuNo(1);
+        Student stu2 = new Student();
+        stu2.setStuNo(2);
+        Student stu53 = new Student();
+        stu53.setStuNo(53);
+        Student[] stus = new Student[] {stu1, stu2, stu53};
+        List<Student> students = studentMapper.queryStudentsWithObjectArray(stus);
+
+        System.out.println(students);
+        session.close();
+    }
+
     // 查询全部学生，并且根据姓名排序
     public static void queryStudentOrderByColumn() throws IOException {
         // Connection - SqlSession操作MyBatis
@@ -522,7 +547,8 @@ public class Test {
 //        queryStuByNOrAWithSQLTag();
 //        queryStudentsWithNosInGrade();
 //        queryStudentsWithArray();
-        queryStudentsWithList();
+//        queryStudentsWithList();
+        queryStudentsWithObjectArray();
 //        queryStudentByStunoWithConverter();
 //        queryAllStudents();
 //        addStudent();
