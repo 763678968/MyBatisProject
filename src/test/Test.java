@@ -1,9 +1,6 @@
 package test;
 
-import entity.Address;
-import entity.Grade;
-import entity.Student;
-import entity.StudentBusiness;
+import entity.*;
 import mapper.StudentMapper;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -171,6 +168,31 @@ public class Test {
         Student student = studentMapper.queryStudentByNoWithOO2(2); // 接口中的方法 -> SQL语句
 
         System.out.println(student);
+        session.close();
+    }
+
+    // 查询班级和班级对应的学生，一对多
+    public static void queryClassAndStudents() throws IOException {
+        // Connection - SqlSession操作MyBatis
+        // conf.xml -> reader
+        Reader reader = Resources.getResourceAsReader("conf.xml");
+        // reader -> SqlSession
+
+        // 可以通过build的第二参数指定数据库环境
+        SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
+        SqlSession session = sessionFactory.openSession();
+
+        StudentMapper studentMapper = session.getMapper(StudentMapper.class);
+        // 班级
+        StudentClass studentClass = studentMapper.queryClassAndStudents(1); // 接口中的方法 -> SQL语句
+
+        System.out.println(studentClass.getClassId() + "," + studentClass.getClassName());
+        // 班级对应的学生
+        List<Student> students = studentClass.getStudents();
+        for (Student student : students) {
+            System.out.println(student.getStuNo() + "," + student.getStuName() + "," +student.getStuAge());
+        }
+
         session.close();
     }
 
@@ -587,7 +609,8 @@ public class Test {
 //        queryStudentsWithList();
 //        queryStudentsWithObjectArray();
 //        queryStudentByNoWithOO();
-        queryStudentByNoWithOO2();
+//        queryStudentByNoWithOO2();
+        queryClassAndStudents();
 //        queryStudentByStunoWithConverter();
 //        queryAllStudents();
 //        addStudent();
