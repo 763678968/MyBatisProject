@@ -161,6 +161,26 @@
         </association>
     </resultMap>
 
+    <!--    利用resultMap实现一对一，延迟加载 -->
+    <select id="queryStudentWithOO2LazyLoad" parameterType="int" resultMap="student_card_lazyLoad__map">
+        <!-- 先查学生 -->
+        select * from student
+    </select>
+    <resultMap id="student_card_lazyLoad__map" type="student">
+        <!-- 学生的信息 -->
+        <id property="stuNo" column="stuNo"/>
+        <result property="stuName" column="stuName"/>
+        <result property="stuAge" column="stuAge"/>
+        <!-- 一对一时，对象成员使用association映射，javaType指定该属性的类型
+            此次采用延迟加载：在查询学生时，并不立即加载学生证信息
+         -->
+        <!-- 学生证，通过select在需要的时候再查学生证 -->
+        <association property="card" javaType="StudentCard" select="mapper.studentCardMapper.queryCardById" column="cardId">
+<!--            <id property="cardId" column="cardId"/>-->
+<!--            <result property="cardInfo" column="cardInfo"/>-->
+        </association>
+    </resultMap>
+
 <!--    一对多-->
     <select id="queryClassAndStudents" parameterType="int" resultMap="class_student_map">
         <!-- 查询g1班的班级信息，和g1班的所有学生信息-->

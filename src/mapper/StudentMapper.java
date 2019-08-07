@@ -29,6 +29,8 @@ public interface StudentMapper {
 
     Student queryStudentByNoWithOO2(int stuNo);
 
+    List<Student> queryStudentWithOO2LazyLoad();
+
     StudentClass queryClassAndStudents(int classId);
 
     Student queryStuByNOrAWithSQLTag(Student student);

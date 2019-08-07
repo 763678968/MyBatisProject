@@ -196,6 +196,29 @@ public class Test {
         session.close();
     }
 
+    // 查询全部学生，并延迟加载每个学生对应的学生证
+    public static void queryStudentWithOO2LazyLoad() throws IOException {
+        // Connection - SqlSession操作MyBatis
+        // conf.xml -> reader
+        Reader reader = Resources.getResourceAsReader("conf.xml");
+        // reader -> SqlSession
+
+        // 可以通过build的第二参数指定数据库环境
+        SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
+        SqlSession session = sessionFactory.openSession();
+
+        StudentMapper studentMapper = session.getMapper(StudentMapper.class);
+        List<Student> students = studentMapper.queryStudentWithOO2LazyLoad(); // 接口中的方法 -> SQL语句
+        for (Student student : students) {
+            System.out.println(student.getStuNo() + "," + student.getStuName());
+
+            StudentCard card = student.getCard();
+            System.out.println(card.getCardId() + "," + card.getCardInfo());
+        }
+
+        session.close();
+    }
+
     // 查询学生，结果为Map类型
     public static void queryStudentOutByHashMap() throws IOException {
         // Connection - SqlSession操作MyBatis
@@ -610,7 +633,8 @@ public class Test {
 //        queryStudentsWithObjectArray();
 //        queryStudentByNoWithOO();
 //        queryStudentByNoWithOO2();
-        queryClassAndStudents();
+//        queryClassAndStudents();
+        queryStudentWithOO2LazyLoad();
 //        queryStudentByStunoWithConverter();
 //        queryAllStudents();
 //        addStudent();

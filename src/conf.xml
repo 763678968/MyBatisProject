@@ -6,6 +6,17 @@
 
     <properties resource="db.properties"/>
     
+    <settings>
+        <!-- 开启日志，并制定使用的具体日志 -->
+        <setting name="logImpl" value="LOG4J"/>
+
+        <!-- 开启延迟加载 -->
+        <setting name="lazyLoadingEnabled" value="true"/>
+
+        <!-- 关闭立即加载 -->
+        <setting name="aggressiveLazyLoading" value="false"/>
+    </settings>
+    
 <!--    <settings>-->
 <!--        <setting name="cacheEnabled" value="false"/>-->
 <!--        <setting name="lazyLoadingEnabled" value="false"/>-->
@@ -75,5 +86,6 @@
     <mappers>
         <!-- 加载映射文件 -->
         <mapper resource="mapper/studentMapper.xml"/>
+        <mapper resource="mapper/studentCardMapper.xml"/>
     </mappers>
 </configuration>
