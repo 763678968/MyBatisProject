@@ -3,6 +3,7 @@ package test;
 import entity.Address;
 import entity.Grade;
 import entity.Student;
+import entity.StudentBusiness;
 import mapper.StudentMapper;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -134,6 +135,24 @@ public class Test {
         Student student = studentMapper.queryStuByStuno(2); // 接口中的方法 -> SQL语句
 
         System.out.println(student);
+        session.close();
+    }
+
+    // 查询单个学生
+    public static void queryStudentByNoWithOO() throws IOException {
+        // Connection - SqlSession操作MyBatis
+        // conf.xml -> reader
+        Reader reader = Resources.getResourceAsReader("conf.xml");
+        // reader -> SqlSession
+
+        // 可以通过build的第二参数指定数据库环境
+        SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
+        SqlSession session = sessionFactory.openSession();
+
+        StudentMapper studentMapper = session.getMapper(StudentMapper.class);
+        StudentBusiness studentBusiness = studentMapper.queryStudentByNoWithOO(2); // 接口中的方法 -> SQL语句
+
+        System.out.println(studentBusiness);
         session.close();
     }
 
@@ -548,7 +567,8 @@ public class Test {
 //        queryStudentsWithNosInGrade();
 //        queryStudentsWithArray();
 //        queryStudentsWithList();
-        queryStudentsWithObjectArray();
+//        queryStudentsWithObjectArray();
+        queryStudentByNoWithOO();
 //        queryStudentByStunoWithConverter();
 //        queryAllStudents();
 //        addStudent();

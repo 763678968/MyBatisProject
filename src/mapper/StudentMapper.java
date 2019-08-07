@@ -3,6 +3,7 @@ package mapper;
 import entity.Address;
 import entity.Grade;
 import entity.Student;
+import entity.StudentBusiness;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +27,7 @@ public interface StudentMapper {
     List<Student> queryStudentsWithArray(int[] stuNos);
     List<Student> queryStudentsWithList(List<Integer> stuNos);
 
+    StudentBusiness queryStudentByNoWithOO(int stuno);
     List<Student> queryStudentsWithObjectArray(Student[] students);
 
     Student queryStuByNOrAWithSQLTag(Student student);

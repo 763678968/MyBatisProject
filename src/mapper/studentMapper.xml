@@ -136,6 +136,12 @@
         <include refid="ObjectArrayStunos"></include>
     </select>
 
+    <select id="queryStudentByNoWithOO" parameterType="int" resultType="StudentBusiness">
+        select s.*, c.* from student s inner join studentcard c
+        on s.cardid = c.cardid
+        where s.stuno = #{stuNo}
+    </select>
+
     <select id="queryStuByStuno" parameterType="int" resultType="student">
             select * from student where stuno = ${value}
     </select>
