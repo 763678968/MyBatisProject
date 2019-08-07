@@ -26,6 +26,8 @@ public interface StudentMapper {
     List<Student> queryStudentsWithArray(int[] stuNos);
     List<Student> queryStudentsWithList(List<Integer> stuNos);
 
+    List<Student> queryStudentsWithObjectArray(Student[] students);
+
     Student queryStuByNOrAWithSQLTag(Student student);
     int queryStudentCount();
 
