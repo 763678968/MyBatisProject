@@ -36,6 +36,9 @@
     <!-- parameterType：输入参数的类型 -->
     <!-- resultType：查询返回结果值的类型，返回类型 -->
 
+    <!-- 声明此namespace开启二级缓存 -->
+    <cache/>
+
     <!-- 一对多，延迟加载需要的：查询班级中的所有学生 -->
     <select id="queryStudentsByClassId" parameterType="int" resultType="student">
         select * from student where classId = #{classId}
