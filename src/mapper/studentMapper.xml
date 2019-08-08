@@ -36,8 +36,13 @@
     <!-- parameterType：输入参数的类型 -->
     <!-- resultType：查询返回结果值的类型，返回类型 -->
 
-    <!-- 声明此namespace开启二级缓存 -->
-    <cache/>
+<!--    &lt;!&ndash; 声明此namespace开启二级缓存，MyBatis自带的二级缓存 &ndash;&gt;-->
+<!--    <cache/>-->
+
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache">
+        <!-- 通过property覆盖Ehcache.xml中的值 -->
+        <property name="maxElementsInMemory" value="2000"/>
+    </cache>
 
     <!-- 一对多，延迟加载需要的：查询班级中的所有学生 -->
     <select id="queryStudentsByClassId" parameterType="int" resultType="student">
