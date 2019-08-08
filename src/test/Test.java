@@ -47,11 +47,12 @@ public class Test {
         SqlSession session = sessionFactory.openSession();
         StudentMapper studentMapper = session.getMapper(StudentMapper.class);
         Student student = studentMapper.queryStudentByStuno(2);
-
+        session.close(); // 进行缓存的时刻
         // 第二次查询
         SqlSession session2 = sessionFactory.openSession();
         StudentMapper studentMapper2 = session2.getMapper(StudentMapper.class);
         Student student2 = studentMapper2.queryStudentByStuno(2);
+        session2.close();
 
 //        // 增删改操作......
 //        session.commit();
