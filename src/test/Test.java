@@ -45,16 +45,21 @@ public class Test {
         // 可以通过build的第二参数指定数据库环境
         SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
         SqlSession session = sessionFactory.openSession();
-
         StudentMapper studentMapper = session.getMapper(StudentMapper.class);
-        Student student = studentMapper.queryStudentByStuno(2); // 接口中的方法 -> SQL语句
+        Student student = studentMapper.queryStudentByStuno(2);
 
-        Student student2 = studentMapper.queryStudentByStuno(2);
+        // 第二次查询
+        SqlSession session2 = sessionFactory.openSession();
+        StudentMapper studentMapper2 = session2.getMapper(StudentMapper.class);
+        Student student2 = studentMapper2.queryStudentByStuno(2);
+
+//        // 增删改操作......
+//        session.commit();
 
         System.out.println(student.getStuNo() + "," + student.getStuName());
         System.out.println(student2.getStuNo() + "," + student2.getStuName());
 
-        session.close();
+//        session.close();
     }
 
     // 查询单个学生 Grade
