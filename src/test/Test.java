@@ -35,6 +35,28 @@ public class Test {
         session.close();
     }
 
+    // 查询单个学生，验证一级缓存
+    public static void queryStudentByStuno2() throws IOException {
+        // Connection - SqlSession操作MyBatis
+        // conf.xml -> reader
+        Reader reader = Resources.getResourceAsReader("conf.xml");
+        // reader -> SqlSession
+
+        // 可以通过build的第二参数指定数据库环境
+        SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
+        SqlSession session = sessionFactory.openSession();
+
+        StudentMapper studentMapper = session.getMapper(StudentMapper.class);
+        Student student = studentMapper.queryStudentByStuno(2); // 接口中的方法 -> SQL语句
+
+        Student student2 = studentMapper.queryStudentByStuno(2);
+
+        System.out.println(student.getStuNo() + "," + student.getStuName());
+        System.out.println(student2.getStuNo() + "," + student2.getStuName());
+
+        session.close();
+    }
+
     // 查询单个学生 Grade
     public static void queryStudentsWithNosInGrade() throws IOException {
         // Connection - SqlSession操作MyBatis
@@ -662,7 +684,8 @@ public class Test {
 //        queryStudentByNoWithOO();
 //        queryStudentByNoWithOO2();
 //        queryClassAndStudents();
-        queryClassAndStudentsLazyLoad();
+//        queryClassAndStudentsLazyLoad();
+        queryStudentByStuno2();
 //        queryStudentWithOO2LazyLoad();
 //        queryStudentByStunoWithConverter();
 //        queryAllStudents();
