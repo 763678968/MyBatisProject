@@ -36,6 +36,11 @@
     <!-- parameterType：输入参数的类型 -->
     <!-- resultType：查询返回结果值的类型，返回类型 -->
 
+    <!-- 一对多，延迟加载需要的：查询班级中的所有学生 -->
+    <select id="queryStudentsByClassId" parameterType="int" resultType="student">
+        select * from student where classId = #{classId}
+    </select>
+
     <sql id="ObjectArrayStunos">
         <where>
             <if test="array != null and array.length">
@@ -181,26 +186,26 @@
         </association>
     </resultMap>
 
-<!--    一对多-->
-    <select id="queryClassAndStudents" parameterType="int" resultMap="class_student_map">
-        <!-- 查询g1班的班级信息，和g1班的所有学生信息-->
-        select c.*,s.* from student s
-        inner join studentclass c
-        on c.classid = s.classid
-        where c.classid = #{classId}
-    </select>
-    <!-- 类-表的对应关系-->
-    <resultMap type="studentClass" id="class_student_map">
-        <!-- 因为type的主类是班级，因此先配置班级的信息 -->
-        <id property="classId" column="classId"/>
-        <result property="className" column="className"/>
-        <!-- 配置成员属性学生，一对多；属性类型：javaType，属性的元素类型ofType -->
-        <collection property="students" ofType="Student">
-            <id property="stuNo" column="stuNo"/>
-            <result property="stuName" column="stuName"/>
-            <result property="stuAge" column="stuAge"/>
-        </collection>
-    </resultMap>
+<!--&lt;!&ndash;    一对多&ndash;&gt;-->
+<!--    <select id="queryClassAndStudents" parameterType="int" resultMap="class_student_map">-->
+<!--        &lt;!&ndash; 查询g1班的班级信息，和g1班的所有学生信息&ndash;&gt;-->
+<!--        select c.*,s.* from student s-->
+<!--        inner join studentclass c-->
+<!--        on c.classid = s.classid-->
+<!--        where c.classid = #{classId}-->
+<!--    </select>-->
+<!--    &lt;!&ndash; 类-表的对应关系&ndash;&gt;-->
+<!--    <resultMap type="studentClass" id="class_student_map">-->
+<!--        &lt;!&ndash; 因为type的主类是班级，因此先配置班级的信息 &ndash;&gt;-->
+<!--        <id property="classId" column="classId"/>-->
+<!--        <result property="className" column="className"/>-->
+<!--        &lt;!&ndash; 配置成员属性学生，一对多；属性类型：javaType，属性的元素类型ofType &ndash;&gt;-->
+<!--        <collection property="students" ofType="Student">-->
+<!--            <id property="stuNo" column="stuNo"/>-->
+<!--            <result property="stuName" column="stuName"/>-->
+<!--            <result property="stuAge" column="stuAge"/>-->
+<!--        </collection>-->
+<!--    </resultMap>-->
 
     <select id="queryStuByStuno" parameterType="int" resultType="student">
             select * from student where stuno = ${value}

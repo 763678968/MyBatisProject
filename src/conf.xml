@@ -87,5 +87,6 @@
         <!-- 加载映射文件 -->
         <mapper resource="mapper/studentMapper.xml"/>
         <mapper resource="mapper/studentCardMapper.xml"/>
+        <mapper resource="mapper/studentClassMapper.xml"/>
     </mappers>
 </configuration>

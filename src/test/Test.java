@@ -1,6 +1,7 @@
 package test;
 
 import entity.*;
+import mapper.StudentClassMapper;
 import mapper.StudentMapper;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -214,6 +215,33 @@ public class Test {
 
             StudentCard card = student.getCard();
             System.out.println(card.getCardId() + "," + card.getCardInfo());
+        }
+
+        session.close();
+    }
+
+    // 一对多，延迟加载
+    public static void queryClassAndStudentsLazyLoad() throws IOException {
+        // Connection - SqlSession操作MyBatis
+        // conf.xml -> reader
+        Reader reader = Resources.getResourceAsReader("conf.xml");
+        // reader -> SqlSession
+
+        // 可以通过build的第二参数指定数据库环境
+        SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
+        SqlSession session = sessionFactory.openSession();
+
+        StudentClassMapper studentClassMapper = session.getMapper(StudentClassMapper.class);
+        List<StudentClass> studentClasses = studentClassMapper.queryClassAndStudents(); // 接口中的方法 -> SQL语句
+
+        // 班级信息
+        for (StudentClass stuClass : studentClasses) {
+            System.out.println(stuClass.getClassId() + "," + stuClass.getClassName());
+
+            System.out.println("------------");
+            for (Student student : stuClass.getStudents()) {
+                System.out.println(student.getStuNo() + "," + student.getStuName());
+            }
         }
 
         session.close();
@@ -634,7 +662,8 @@ public class Test {
 //        queryStudentByNoWithOO();
 //        queryStudentByNoWithOO2();
 //        queryClassAndStudents();
-        queryStudentWithOO2LazyLoad();
+        queryClassAndStudentsLazyLoad();
+//        queryStudentWithOO2LazyLoad();
 //        queryStudentByStunoWithConverter();
 //        queryAllStudents();
 //        addStudent();
