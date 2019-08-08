@@ -214,8 +214,13 @@
             select * from student where stuno = ${value}
     </select>
 
-    <select id="queryStudentByStuno" parameterType="int" resultMap="studentMapping">
-            select * from student where stuno = ${value}
+    <!-- 禁用此select的二级缓存:useCache="false" -->
+<!--    <select id="queryStudentByStuno" parameterType="int" resultMap="studentMapping" useCache="false">-->
+<!--            select * from student where stuno = ${value}-->
+<!--    </select>-->
+
+    <select id="queryStudentByStuno" parameterType="int" resultMap="studentMapping" useCache="true">
+        select * from student where stuno = ${value}
     </select>
 
     <select id="queryStudentByStuname" resultType="student" parameterType="string">

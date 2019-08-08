@@ -48,11 +48,24 @@ public class Test {
         StudentMapper studentMapper = session.getMapper(StudentMapper.class);
         Student student = studentMapper.queryStudentByStuno(2);
         session.close(); // 进行缓存的时刻
+
         // 第二次查询
         SqlSession session2 = sessionFactory.openSession();
         StudentMapper studentMapper2 = session2.getMapper(StudentMapper.class);
         Student student2 = studentMapper2.queryStudentByStuno(2);
         session2.close();
+
+        // 第3次查询
+        SqlSession session3 = sessionFactory.openSession();
+        StudentMapper studentMapper3 = session3.getMapper(StudentMapper.class);
+        Student student3 = studentMapper3.queryStudentByStuno(2);
+        session3.close();
+
+        // 第4次查询
+        SqlSession session4 = sessionFactory.openSession();
+        StudentMapper studentMapper4 = session4.getMapper(StudentMapper.class);
+        Student student4 = studentMapper4.queryStudentByStuno(2);
+        session4.close();
 
 //        // 增删改操作......
 //        session.commit();
